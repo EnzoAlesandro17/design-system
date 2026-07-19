@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArchSolutions — Demo de estilos</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .demo-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-4);
+  }
+  .demo-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-5);
+  }
+  .demo-section {
+    margin-bottom: var(--space-5);
+  }
+  .demo-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    margin-bottom: var(--space-3);
+  }
+  .demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-3);
+  }
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+  .swatch-color {
+    height: 48px;
+  }
+  .swatch-label {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--font-size-small);
+    background: var(--color-surface);
+  }
+</style>
+</head>
+<body>
+  <div class="demo-wrap">
+    <div class="demo-header">
+      <h1>ArchSolutions — Design System</h1>
+      <button class="btn btn-secondary" id="theme-toggle" type="button">Modo oscuro</button>
+    </div>
+
+    <section class="demo-section">
+      <h2>Botones</h2>
+      <div class="demo-row">
+        <button class="btn btn-primary">Guardar</button>
+        <button class="btn btn-secondary">Cancelar</button>
+        <button class="btn btn-primary" disabled>Deshabilitado</button>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Formulario</h2>
+      <div class="card" style="max-width: 360px;">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" placeholder="Ej: Juan Pérez">
+        <br><br>
+        <label for="email">Email (con error)</label>
+        <input id="email" class="input-error" type="email" placeholder="ejemplo@dominio.com">
+        <div class="field-error">Formato de email inválido</div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Tarjetas</h2>
+      <div class="demo-grid">
+        <div class="card">
+          <h3>Tarjeta simple</h3>
+          <p class="text-secondary">Texto secundario de ejemplo dentro de una tarjeta.</p>
+          <a href="#">Ver más</a>
+        </div>
+        <div class="card section-alt">
+          <h3>Sección alternativa</h3>
+          <p class="text-secondary">Fondo alternativo (bg-secondary) para diferenciar bloques.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Badges</h2>
+      <div class="demo-row">
+        <span class="badge badge-success">Éxito</span>
+        <span class="badge badge-warning">Advertencia</span>
+        <span class="badge badge-error">Error</span>
+        <span class="badge badge-info">Información</span>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Tabla</h2>
+      <div class="card" style="padding: 0;">
+        <table>
+          <thead>
+            <tr>
+              <th>Proyecto</th>
+              <th>Estado</th>
+              <th>Responsable</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ERP interno</td>
+              <td><span class="badge badge-success">Activo</span></td>
+              <td>Enzo</td>
+            </tr>
+            <tr>
+              <td>Panacar</td>
+              <td><span class="badge badge-warning">En pausa</span></td>
+              <td>Enzo</td>
+            </tr>
+            <tr>
+              <td>Asistente local</td>
+              <td><span class="badge badge-error">Bloqueado</span></td>
+              <td>Enzo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <h2>Paleta</h2>
+      <div class="demo-grid" id="palette"></div>
+    </section>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+    const root = document.documentElement;
+
+    toggle.addEventListener('click', () => {
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      toggle.textContent = isDark ? 'Modo oscuro' : 'Modo claro';
+    });
+
+    const tokens = [
+      '--color-primary', '--color-text-primary', '--color-bg-secondary',
+      '--color-bg-primary', '--color-primary-soft', '--color-text-secondary',
+      '--color-border', '--color-surface', '--color-success',
+      '--color-warning', '--color-error', '--color-info', '--color-action-secondary'
+    ];
+    const paletteEl = document.getElementById('palette');
+    tokens.forEach(token => {
+      const swatch = document.createElement('div');
+      swatch.className = 'swatch';
+      swatch.innerHTML = `
+        <div class="swatch-color" style="background: var(${token});"></div>
+        <div class="swatch-label">${token}</div>
+      `;
+      paletteEl.appendChild(swatch);
+    });
+  </script>
+</body>
+</html>
